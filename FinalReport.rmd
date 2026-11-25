@@ -1,15 +1,9 @@
 ---
-title: "GSS challange More Data"
-author: "Put your name here!"
-date: "put the date here"
+title: "CAPITAL PUNISHMENT"
+author: "Holden Katin-Bayer!"
+date: "November 24th, 2026"
 output: html_document
 ---
-
-
-
-
-
-
 
 ```{r include=FALSE,echo=FALSE}
 source(file="fisherXY.R")
@@ -30,7 +24,17 @@ mydata <- na.omit(mydata)
 Is attitude toward capitol punishment (cappun) independent of race (race)?
 If not, then whose view differs from whom??
 
+Data in the GSS dataset provides the mydata. It originates from the University of Chicago.
+
+$H_A$ Race correlates to attitude toward capital punishment.
+
+$H_0$ There is no correlation between attitude and race.
+
 # Methods
+
+cappun is categorical.
+
+race is categorical.
 
 <!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method. Discuss what data manipulations may be needed for example subsetting or other binning procedures and what sort of graphical displays and inferential tools will be used!-->
 
@@ -44,7 +48,14 @@ If not, then whose view differs from whom??
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question. Bottom line is to explain the features of the graph that are relevant to conforming or departing to what is expected by your null hypothesis !-->
 
+```{r}
+barchartGC(~cappun + race,data=mydata)
+barchartGC(~cappun + race,data=mydata, type="percent")
 
+```
+Races are Black, White, and Other. 
+
+The barchart suggests that the three races do not match in their opinion of capital punishment. From the data, it appears that White favors capital punishment at a higher rate than they oppose. It appears that Black opposes at a higher rate than they favor. It appears that Other favors at a higher rate than they oppose.
 
 ## Now with The Most data (fewer variables gives more data points)
 
@@ -54,9 +65,12 @@ If not, then whose view differs from whom??
 
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
-
-
-
+```{r}
+table1 <- xtabs(~cappun + race, data=mydata)
+rowPerc(table1)
+colPerc(table1)
+```
+From the numerical table we can see that the percent of White that favors is 65.1, this is greater than the percent of Black, which is 42.63, and the percent of Other, which is 55.2.
 ## Now with More data
 
 
@@ -65,12 +79,21 @@ If not, then whose view differs from whom??
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
 
-`
+```{r}
+fisherXY(mydata$cappun,mydata$race)
+```
 
+Using the fisherxy test, we can see that all the sample races have a different view towards capital punishment. Each one has a P value less than 0.05. In addition, they each posess different odds ratios. We must reject the null hypothesis.
 
 ## More data version
 
 
 # Discussion and Conclusion
+
+To repeat the initial question, we, the master RStudio statisticians of this class, are trying to find out if the view toward capital punishment is independent of race.
+
+We reject the null hypothesis becase the P value is 0.002607 and 0.001564. This is less than 0.05.
+
+We determine that White and Other will generally favor capital punishment, with Black deviating by generally opposing capital punishment.
 
 <!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variavbles causes the other, or whether they perhasps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
